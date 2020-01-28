@@ -1,9 +1,9 @@
-FROM registry.redhat.io/ubi7/ubi
+FROM docker.io/library/centos:centos7
 
 COPY filetranspile /usr/bin/filetranspile
 
 RUN yum update -y && \
-    yum install -y rh-python36 rh-python36-PyYAML && \
+    yum install -y python3 PyYAML && \
     yum -y clean all && \
     chmod a+x /usr/bin/filetranspile
 
