@@ -370,21 +370,20 @@ def main():
         ignition_cfg = { "ignition": { "version": "2.3.0" } }
         ignition_spec = SpecV2(ignition_cfg, args)
 
+    # Merge the and output the results
+    merged_ignition = ignition_spec.merge()
+
     # Open the merge ignition file and load it
     if args.merge is not None:
         # Get the ignition config
         try:
             merge_ignition_cfg, merge_spec_cls = loader(args.merge)
             # merge_ignition_spec = merge_spec_cls(merge_ignition_cfg, args)
-            
+            merged_ignition = ignition_spec.merge_with_another(merge_ignition_cfg)
+
         except FileTranspilerError as err:
             parser.error(err)
-
-    # Merge the and output the results
-    merged_ignition = ignition_spec.merge()
-
-    merged_ignition = ignition_spec.merge_with_another(merge_ignition_cfg)
-
+    
     if args.format == 'json':
         if args.pretty:
             ignition_out = json.dumps(
